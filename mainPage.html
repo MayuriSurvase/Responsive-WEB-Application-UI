@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Layered dialogs — application and tile scopes</title>
+  <link rel="stylesheet" href="global.css">
+  <script src="displayView.js"></script>
+  <script src="tileContent.js" defer></script>
+  <script src="mainPage.js" defer></script>
+  <script src="dialogs.js" defer></script>
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <button id="sidebar-toggle" type="button" aria-controls="sidebar" aria-expanded="false">☰ <span class="sr-only">Toggle navigation</span></button>
+      <h1>Logistics workspace</h1>
+      <div class="display-view-control">
+        <label for="display-view">Display view</label>
+        <select id="display-view" aria-describedby="display-view-help">
+          <option value="compact">Compact</option>
+          <option value="normal" selected>Normal</option>
+          <option value="large">Large</option>
+        </select>
+        <span id="display-view-help" class="sr-only">Applies to tiles set to Default. Normal uses the original size. Compact uses smaller text and spacing. Large uses larger text and spacing.</span>
+      </div>
+    </header>
+    <div class="app-body">
+      <aside id="sidebar" class="sidebar" hidden>
+        <nav aria-label="Main navigation">
+          <ul class="nav">
+            <li><a href="#workspace" aria-current="page">Dashboard</a></li>
+            <li><a href="#workspace">Organisation</a></li>
+            <li><a href="#workspace">User</a></li>
+            <li><a href="#workspace">Roles</a></li>
+            <li><a href="#workspace">Settings</a></li>
+          </ul>
+        </nav>
+      </aside>
+      <button class="sidebar-backdrop" type="button" aria-label="Close navigation" hidden></button>
+      <main id="workspace" class="main-content">
+        <div class="content">
+          <div class="tilebar" role="group" aria-label="Create tiles">
+            <button id="normal-form-button" type="button">Add address form</button>
+            <button id="wide-form-button" type="button">Add load list</button>
+            <button id="app-dialog-button" type="button">Open application dialog</button>
+            <div class="tile-visibility" tabindex="0" aria-label="Tile visibility; scroll horizontally to read the full lists" role="status" aria-live="polite" aria-atomic="true">
+              <span>Total: <span id="tile-count">0 tiles</span></span>
+              <span>Visible: <span id="visible-tile-count">None</span></span>
+              <span>Outside viewport: <span id="outside-tile-count">None</span></span>
+            </div>
+          </div>
+          <div class="tile-workspace">
+            <p id="empty-state">Choose a button above to create your first tile.</p>
+            <section class="tile-container" aria-label="Form and list tiles"></section>
+          </div>
+          <p id="tile-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+        </div>
+        <footer class="footer-content">© 2026 My Application</footer>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

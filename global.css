@@ -1,0 +1,774 @@
+/* GLOBAL APPLICATION STYLESHEET
+   Edit ORGANIZATION CUSTOMIZATION to brand the application.
+   Default values reproduce the original application. No imports or build step.
+   Structural selectors, container/media thresholds, tile formulas and source
+   order are preserved. JavaScript supplies state attributes, never design values.
+   Use these same classes/data-display-view attributes in React/JSON renderers.
+   Tile dialogs inherit their tile theme; future React portals must carry state.
+*/
+
+/* 1. ORGANIZATION CUSTOMIZATION: brand and semantic colors */
+:root {
+  /* Names, addresses and logo markup belong in application content/configuration. */
+  --font-family: Inter, system-ui, sans-serif;
+  --shadow-tile: 0 2px 6px var(--shadow-tile-color);
+  --shadow-navigation: 0 4px 12px var(--shadow-navigation-color);
+  --shadow-dialog: 0 12px 40px var(--shadow-dialog-color);
+  --shadow-tile-dialog: 0 6px 20px var(--shadow-dialog-color);
+  --color-surface: white;
+  --color-on-primary: white;
+  --color-text: #172033;
+  --color-page: #f1f5f9;
+  --color-border: #dbe3ed;
+  --color-accent-surface: #eff6ff;
+  --color-tile-title: #e2e8f0;
+  --color-tile-title-active: #dbeafe;
+  --tile-active-outline-width: 2px;
+  --color-focus: #2563eb;
+  --color-primary: #1d4ed8;
+  --color-surface-muted: #f8fafc;
+  --color-text-secondary: #475569;
+  --color-text-muted: #64748b;
+  --color-danger: #b91c1c;
+  --color-field-border-strong: #94a3b8;
+  --color-label: #334155;
+  --color-field-border: #b9c7d8;
+  --color-row-alternate: #fafcfe;
+  --color-primary-hover: #1e40af;
+  --color-status-neutral: #e2e8f0;
+  --color-status-info: #dbeafe;
+  --color-status-success: #dcfce7;
+  --color-status-success-text: #166534;
+  --color-status-danger: #fee2e2;
+  --color-status-danger-text: #991b1b;
+  --shadow-tile-color: rgb(15 23 42 / 6%);
+  --shadow-navigation-color: rgb(15 23 42 / 15%);
+  --shadow-dialog-color: rgb(15 23 42 / 25%);
+  --overlay-navigation: rgb(15 23 42 / 30%);
+  --overlay-tile: rgb(15 23 42 / 32%);
+  --overlay-application: rgb(15 23 42 / 45%);
+}
+
+/* 2. SHARED DESIGN VALUES
+   Unitless values multiply --view-unit at the consuming component, so per-tile
+   sizing remains independent. Fixed rem values retain global layout behavior.
+   Changing spacing, fonts or dimensions intentionally changes appearance;
+   retain defaults when matching the baseline. Query thresholds stay explicit.
+*/
+:root {
+  --density-normal: 1;
+  --density-compact: .875;
+  --density-large: 1.125;
+  --border-width: 1px;
+  --focus-outline-width: 3px;
+  --tile-dimensions-width: 14ch;
+  --focus-outline-offset: 3px;
+  --visibility-basis: 24rem;
+  --visibility-scroll-space: 1.5rem;
+  --layer-base: 0;
+  --layer-popup: 10;
+  --layer-confirmation: 20;
+  --fixed-font-size-080: .8rem;
+  --fixed-font-size-0875: .875rem;
+  --fixed-font-size-100: 1rem;
+  --fixed-font-size-140: 1.4rem;
+  --fixed-radius-050: .5rem;
+  --fixed-radius-075: .75rem;
+  --fixed-size-100: 1rem;
+  --fixed-size-1500: 15rem;
+  --fixed-size-1600: 16rem;
+  --fixed-size-275: 2.75rem;
+  --fixed-space-050: .5rem;
+  --fixed-space-060: .6rem;
+  --fixed-space-075: .75rem;
+  --fixed-space-080: .8rem;
+  --fixed-space-085: .85rem;
+  --fixed-space-100: 1rem;
+  --fixed-space-150: 1.5rem;
+  --font-size-070: .7;
+  --font-size-075: .75;
+  --font-size-080: .8;
+  --font-size-085: .85;
+  --font-size-0875: .875;
+  --font-size-090: .9;
+  --font-size-100: 1;
+  --font-weight-400: 400;
+  --font-weight-550: 550;
+  --font-weight-650: 650;
+  --radius-030: .3;
+  --radius-035: .35;
+  --radius-040: .4;
+  --radius-050: .5;
+  --radius-065: .65;
+  --radius-075: .75;
+  --size-100: 1;
+  --size-1000: 10;
+  --size-1700: 17;
+  --size-1800: 18;
+  --size-200: 2;
+  --size-2000: 20;
+  --size-215: 2.15;
+  --size-2400: 24;
+  --size-250: 2.5;
+  --size-275: 2.75;
+  --size-3000: 30;
+  --size-3600: 36;
+  --size-4200: 42;
+  --size-5800: 58;
+  --size-7000: 70;
+  --size-800: 8;
+  --size-900: 9;
+  --size-9000: 90;
+  --space-015: .15;
+  --space-020: .2;
+  --space-025: .25;
+  --space-030: .3;
+  --space-035: .35;
+  --space-040: .4;
+  --space-045: .45;
+  --space-050: .5;
+  --space-055: .55;
+  --space-060: .6;
+  --space-065: .65;
+  --space-070: .7;
+  --space-075: .75;
+  --space-085: .85;
+  --space-100: 1;
+}
+
+/* 3. BASE CONTROLS, APPLICATION LAYOUT AND TILE STRUCTURE (original order: styleClass.css) */
+:root {
+  color-scheme: light;
+  font-family: var(--font-family);
+  color: var(--color-text);
+  background: var(--color-page);
+  --tile-gap: var(--fixed-size-100);
+  --tile-min-height: var(--fixed-size-1600);
+  --border-color: var(--color-border);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; }
+button, input { font: inherit; }
+/* input { field-sizing: content !important; } */
+button { 
+  min-height: calc(var(--size-275) * var(--view-unit, 1rem)); 
+  padding: calc(var(--space-050) * var(--view-unit, 1rem)) calc(var(--space-085) * var(--view-unit, 1rem)); 
+  border: var(--border-width) solid var(--border-color); 
+  border-radius: calc(var(--radius-050) * var(--view-unit, 1rem)); 
+  background: var(--color-surface); 
+  color: inherit; 
+  cursor: pointer; 
+}
+
+button:hover { 
+  background: var(--color-accent-surface);
+   border-color: var(--color-focus); 
+  }
+:focus-visible { 
+  outline: var(--focus-outline-width) solid var(--color-focus); 
+  outline-offset: var(--focus-outline-offset); 
+}
+
+[hidden] { display: none !important; }
+.sr-only { 
+  position: absolute;
+  width: 1px;
+  height: 1px; padding: 0; 
+  margin: -1px;
+  overflow: hidden; 
+  clip-path: inset(50%); 
+  white-space: nowrap; 
+  border: 0; 
+}
+
+.app { 
+  height: 100dvh; 
+  display: flex; 
+  flex-direction: column; 
+  overflow: hidden; 
+}
+
+.header { 
+  flex: none; 
+  display: flex; 
+  align-items: center; 
+  gap: var(--fixed-space-100); 
+  padding: var(--fixed-space-060) 
+  var(--fixed-space-100); 
+  background: var(--color-surface); 
+  border-bottom: var(--border-width) solid var(--border-color); 
+}
+
+.header h1 { 
+  margin: 0; 
+  font-size: clamp(var(--fixed-font-size-100), 3vw, var(--fixed-font-size-140)); 
+}
+
+.app-body { 
+  position: relative; 
+  flex: 1; 
+  min-height: 0; 
+  display: flex; 
+}
+
+.sidebar { 
+  width: var(--fixed-size-1500); 
+  flex: none; 
+  overflow: auto; 
+  background: var(--color-surface); 
+  border-right: var(--border-width) solid var(--border-color); 
+}
+
+.nav { 
+  list-style: none; 
+  padding: var(--fixed-space-100); 
+  margin: 0; 
+}
+.nav a { 
+  display: block; 
+  padding: var(--fixed-space-080); 
+  border-radius: var(--fixed-radius-050); 
+  color: inherit; 
+  text-decoration: none; 
+}
+
+.nav a[aria-current], .nav a:hover { 
+  background: var(--color-accent-surface); 
+  color: var(--color-primary); 
+}
+
+.sidebar-backdrop { display: none; }
+.main-content { 
+  display: flex; 
+  flex-direction: column; 
+  gap: var(--fixed-space-075); 
+  flex: 1; 
+  min-width: 0; 
+  min-height: 0; 
+  padding: clamp(var(--fixed-space-050), 2vw, var(--fixed-space-150)); 
+}
+.content { 
+  display: flex; 
+  flex-direction: column; 
+  flex: 1; 
+  min-height: 0; 
+  min-width: 0; 
+  overflow: hidden; 
+  border: var(--border-width) solid var(--border-color); 
+  border-radius: var(--fixed-radius-075); 
+  background: var(--color-surface-muted); 
+}
+
+.tilebar { 
+  display: flex; 
+  flex-wrap: wrap; 
+  align-items: center; 
+  gap: var(--fixed-space-050); 
+  padding: var(--fixed-space-075); 
+  border-bottom: var(--border-width) solid var(--border-color); 
+  background: var(--color-surface); 
+  flex: none; 
+}
+
+/* Visibility reporting must not resize its own observed workspace. Its flex
+   basis and height stay independent of the number/list of visible tiles.
+   Long lists scroll inside this row instead of rewrapping the toolbar. */
+.tile-visibility { 
+  margin-inline-start: auto; 
+  flex: 1 1 var(--visibility-basis); 
+  min-inline-size: 0; 
+  max-inline-size: 100%; 
+  block-size: calc(1lh + var(--visibility-scroll-space)); 
+  display: flex; 
+  flex-wrap: nowrap; 
+  align-items: center; 
+  gap: var(--fixed-space-050) var(--fixed-space-100); 
+  overflow-x: auto; 
+  overflow-y: hidden; 
+  font-size: var(--fixed-font-size-0875); 
+  font-variant-numeric: tabular-nums; 
+  color: var(--color-text-secondary); 
+}
+
+.tile-visibility > span { 
+  flex: none; 
+  white-space: nowrap; 
+}
+
+.tile-workspace { 
+  flex: 1; 
+  min-height: 0; 
+  min-width: 0; 
+  overflow: auto; 
+  padding: var(--fixed-space-100); 
+  scrollbar-gutter: stable; 
+  container: workspace / size; }
+#empty-state { color: var(--color-text-secondary); }
+
+/* The anchor screen contains direct tile children. CSS owns row wrapping,
+   normal/wide proportions, and row height without measured inline styles. */
+.tile-container {
+  --tile-columns: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: stretch;
+  align-items: stretch;
+  block-size: 100cqh;
+  gap: var(--tile-gap);
+}
+.tile-container:empty { display: none; }
+.tile-container > .form-tile {
+  --tile-span: 1;
+  flex: var(--tile-span) 0 calc(
+    (100% - (var(--tile-columns) - 1) * var(--tile-gap))
+    / var(--tile-columns) * var(--tile-span)
+    + (var(--tile-span) - 1) * var(--tile-gap)
+  );
+  min-block-size: min(var(--tile-min-height), 100cqh);
+}
+/* A width unit is 20rem, with at most six units per row. */
+@container workspace (min-width: 41rem) {
+  .tile-container { --tile-columns: 2; }
+  .tile-container > .form-wide { --tile-span: 2; }
+}
+@container workspace (min-width: 62rem) {
+  .tile-container { --tile-columns: 3; }
+}
+@container workspace (min-width: 83rem) {
+  .tile-container { --tile-columns: 4; }
+}
+@container workspace (min-width: 104rem) {
+  .tile-container { --tile-columns: 5; }
+}
+@container workspace (min-width: 125rem) {
+  .tile-container { --tile-columns: 6; }
+}
+.form-tile {
+   min-inline-size: 0;
+   min-block-size: 0; 
+   display: flex; 
+   flex-direction: column; 
+   overflow: hidden; 
+   background: var(--color-surface); 
+   border: var(--border-width) solid var(--border-color); 
+   border-radius: var(--fixed-radius-075); 
+   box-shadow: var(--shadow-tile); 
+   /* Content and overlays must not determine the anchor tile height. */
+   container: tile / size; 
+  }
+/* Either tile kind uses the complete workspace when it is the only tile. */
+.tile-container > .form-tile:only-child {
+  flex-basis: 100%;
+  inline-size: 100%;
+  block-size: 100%;
+}
+/* On narrow containers, each wrapped row occupies one workspace height. */
+@container workspace (max-width: 42rem) {
+  .tile-container > .form-tile { min-block-size: 100cqh; }
+}
+.tile-header { flex: none; display: flex; flex-wrap: wrap; align-items: center; gap: calc(var(--space-050) * var(--view-unit, 1rem)); padding: calc(var(--space-075) * var(--view-unit, 1rem)); border-bottom: var(--border-width) solid var(--border-color); background: var(--color-accent-surface); }
+.tile-header h2 { flex: 1; margin: 0; font-size: calc(var(--font-size-100) * var(--view-unit, 1rem)); overflow-wrap: anywhere; }
+/* Reserve label width so live measurements cannot repeatedly rewrap headers. */
+.tile-dimensions { display: inline-block; inline-size: var(--tile-dimensions-width); margin-inline-start: calc(var(--space-050) * var(--view-unit, 1rem)); color: var(--color-text-muted); font-size: calc(var(--font-size-075) * var(--view-unit, 1rem)); font-weight: var(--font-weight-400); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tile-delete { color: var(--color-danger); }
+.tile-body { flex: 1; min-height: 0; overflow: auto; padding: calc(var(--space-100) * var(--view-unit, 1rem)); min-width: 0; }
+.form-fields { display: grid; grid-template-columns: minmax(0, 1fr); gap: calc(var(--space-075) * var(--view-unit, 1rem)); }
+.form-field { display: flex; flex-direction: column; gap: calc(var(--space-025) * var(--view-unit, 1rem)); min-width: 0; }
+.form-field label { font-size: calc(var(--font-size-0875) * var(--view-unit, 1rem)); overflow-wrap: anywhere; }
+.form-field input { width: 100%; min-width: 0; padding: calc(var(--space-060) * var(--view-unit, 1rem)); border: var(--border-width) solid var(--color-field-border-strong); border-radius: calc(var(--radius-040) * var(--view-unit, 1rem)); }
+@container tile (min-width: 26rem) {
+  .form-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+/* Preserve table columns on small screens, with local horizontal scrolling. */
+.list-table-wrapper { max-width: 100%; overflow-x: auto; }
+table { width: 100%; min-width: calc(var(--size-3600) * var(--view-unit, 1rem)); border-collapse: collapse; font-size: calc(var(--font-size-0875) * var(--view-unit, 1rem)); }
+caption { text-align: start; padding-block-end: calc(var(--space-075) * var(--view-unit, 1rem)); color: var(--color-text-secondary); }
+th, td { text-align: start; padding: calc(var(--space-075) * var(--view-unit, 1rem)); border-bottom: var(--border-width) solid var(--border-color); }
+th { background: var(--color-surface-muted); }
+.footer-content { flex: none; text-align: center; color: var(--color-text-secondary); font-size: var(--fixed-font-size-080); }
+
+@media (max-width: 48rem) {
+  .sidebar { position: absolute; inset-block: 0; inset-inline-start: 0; z-index: 2; width: min(var(--fixed-size-1500), 85%); box-shadow: var(--shadow-navigation); }
+  .sidebar-backdrop { display: block; position: absolute; inset: 0; z-index: 1; border: 0; border-radius: 0; background: var(--overlay-navigation); }
+}
+
+
+/* 4. FORMS, LISTS AND CONTENT RESPONSIVENESS (original order: contentStyle.css) */
+/* Grouped controls and table structure based on the supplied references. */
+/* --view-unit defaults to 1rem; displayView.css can override it per tile.
+   At the default scale, all declaration values match the original styles. */
+/* This container is inside the tile: it never participates in tile placement.
+   Width AND height queries use the space remaining below the tile header. */
+.tile-body {
+  container: tile-content / size;
+  padding: clamp(calc(var(--space-040) * var(--view-unit, 1rem)), 2cqi, calc(var(--space-085) * var(--view-unit, 1rem)));
+  --content-gap: calc(var(--space-065) * var(--view-unit, 1rem));
+  --field-min: calc(var(--size-900) * var(--view-unit, 1rem));
+}
+.address-preview, .loads-preview { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--content-gap); min-inline-size: 0; align-content: start; }
+.address-preview > *, .loads-preview > * { min-inline-size: 0; }
+.address-preview [id] { scroll-margin-block-start: var(--content-gap); }
+.section-nav { display: flex; flex-wrap: wrap; gap: calc(var(--space-035) * var(--view-unit, 1rem)); border-bottom: var(--border-width) solid var(--border-color); padding-bottom: calc(var(--space-050) * var(--view-unit, 1rem)); }
+.section-nav a { padding: calc(var(--space-055) * var(--view-unit, 1rem)) calc(var(--space-065) * var(--view-unit, 1rem)); color: var(--color-label); text-decoration: none; border-radius: calc(var(--radius-035) * var(--view-unit, 1rem)); font-size: calc(var(--font-size-085) * var(--view-unit, 1rem)); }
+.section-nav a:hover { background: var(--color-accent-surface); color: var(--color-primary); }
+.address-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--size-1800) * var(--view-unit, 1rem))), 1fr)); gap: var(--content-gap); align-items: start; }
+fieldset { min-width: 0; margin: 0; padding: calc(var(--space-065) * var(--view-unit, 1rem)); border: var(--border-width) solid var(--border-color); border-radius: calc(var(--radius-050) * var(--view-unit, 1rem)); }
+legend { font-size: calc(var(--font-size-090) * var(--view-unit, 1rem)); font-weight: var(--font-weight-650); padding: 0 calc(var(--space-025) * var(--view-unit, 1rem)); }
+.control-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--field-min)), 1fr)); gap: calc(var(--space-050) * var(--view-unit, 1rem)); align-items: start; }
+.settings-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--size-1000) * var(--view-unit, 1rem))), 1fr)); }
+.control-field { min-width: 0; inline-size: 100%; max-inline-size: calc(var(--size-2400) * var(--view-unit, 1rem)); display: grid; gap: calc(var(--space-030) * var(--view-unit, 1rem)); justify-self: start; }
+.control-field > label, .field-label { font-size: calc(var(--font-size-080) * var(--view-unit, 1rem)); color: var(--color-label); font-weight: var(--font-weight-550); overflow-wrap: anywhere; }
+.control-field input:not([type=checkbox]):not([type=radio]), .control-field select, .control-field textarea { width: 100%; min-width: 0; padding: calc(var(--space-035) * var(--view-unit, 1rem)) calc(var(--space-050) * var(--view-unit, 1rem)); min-height: calc(var(--size-215) * var(--view-unit, 1rem)); border: var(--border-width) solid var(--color-field-border); border-radius: calc(var(--radius-035) * var(--view-unit, 1rem)); background: var(--color-surface); color: inherit; font: inherit; font-size: calc(var(--font-size-085) * var(--view-unit, 1rem)); }
+.control-field input[readonly] { background: var(--color-surface-muted); }
+.control-field input[type=file] { padding: calc(var(--space-040) * var(--view-unit, 1rem)); font-size: calc(var(--font-size-075) * var(--view-unit, 1rem)); }
+.control-field input[type=range] { padding: 0; }
+.control-field textarea { resize: vertical; }
+.control-field small { font-size: calc(var(--font-size-070) * var(--view-unit, 1rem)); color: var(--color-text-muted); }
+.choices { display: flex; flex-wrap: wrap; gap: calc(var(--space-050) * var(--view-unit, 1rem)); min-height: calc(var(--size-250) * var(--view-unit, 1rem)); align-items: center; font-size: calc(var(--font-size-080) * var(--view-unit, 1rem)); }
+.choices label { display: inline-flex; align-items: center; gap: calc(var(--space-035) * var(--view-unit, 1rem)); }
+.choices input, .load-table input[type=checkbox] { inline-size: calc(var(--size-100) * var(--view-unit, 1rem)); block-size: calc(var(--size-100) * var(--view-unit, 1rem)); accent-color: var(--color-focus); }
+.summary-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--size-800) * var(--view-unit, 1rem))), 1fr)); border: var(--border-width) solid var(--border-color); border-radius: calc(var(--radius-050) * var(--view-unit, 1rem)); }
+.summary-strip div { padding: calc(var(--space-060) * var(--view-unit, 1rem)); display: grid; gap: calc(var(--space-015) * var(--view-unit, 1rem)); }
+.summary-strip span { color: var(--color-text-muted); font-size: calc(var(--font-size-070) * var(--view-unit, 1rem)); }
+.summary-strip strong { font-size: calc(var(--font-size-080) * var(--view-unit, 1rem)); }
+.reference-table { min-inline-size: 0; overflow: auto; max-width: 100%; border: var(--border-width) solid var(--border-color); border-radius: calc(var(--radius-050) * var(--view-unit, 1rem)); }
+.reference-table table { min-width: calc(var(--size-4200) * var(--view-unit, 1rem)); font-size: calc(var(--font-size-075) * var(--view-unit, 1rem)); }
+.reference-table caption { padding: calc(var(--space-065) * var(--view-unit, 1rem)); background: var(--color-surface-muted); color: var(--color-text); font-weight: var(--font-weight-650); }
+.reference-table th, .reference-table td { padding: calc(var(--space-040) * var(--view-unit, 1rem)) calc(var(--space-050) * var(--view-unit, 1rem)); }
+.reference-table tbody tr:nth-child(even) { background: var(--color-row-alternate); }
+.preview-actions, .list-toolbar, .filter-actions, .list-summary { display: flex; flex-wrap: wrap; align-items: center; gap: calc(var(--space-050) * var(--view-unit, 1rem)); }
+.primary { background: var(--color-primary); color: var(--color-on-primary); border-color: var(--color-primary); }
+.primary:hover { background: var(--color-primary-hover); color: var(--color-on-primary); }
+.list-toolbar p { margin: 0; margin-inline-end: auto; font-size: calc(var(--font-size-085) * var(--view-unit, 1rem)); color: var(--color-text-muted); }
+.load-filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--size-800) * var(--view-unit, 1rem))), 1fr)); gap: var(--content-gap); align-items: end; }
+.load-table table { min-width: calc(var(--size-7000) * var(--view-unit, 1rem)); }
+.load-table th { white-space: nowrap; }
+.status-badge { display: inline-block; padding: calc(var(--space-020) * var(--view-unit, 1rem)) calc(var(--space-045) * var(--view-unit, 1rem)); border-radius: calc(var(--radius-030) * var(--view-unit, 1rem)); background: var(--color-status-neutral); font-size: calc(var(--font-size-070) * var(--view-unit, 1rem)); white-space: nowrap; }
+.in-transit { background: var(--color-status-info); color: var(--color-primary-hover); }
+.delivered { background: var(--color-status-success); color: var(--color-status-success-text); }
+.delayed { background: var(--color-status-danger); color: var(--color-status-danger-text); }
+.list-summary { justify-content: space-between; color: var(--color-text-muted); font-size: calc(var(--font-size-075) * var(--view-unit, 1rem)); }
+.local-message { font-size: calc(var(--font-size-080) * var(--view-unit, 1rem)); color: var(--color-text-secondary); margin: 0; }
+
+/* Use the actual anchor/popup width, so a lone desktop form can expose
+   its fields in fewer rows while smaller tiles retain the stacked layout. */
+@container tile-content (min-width: 65rem) {
+  .address-preview { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .address-preview > .section-nav,
+  .address-preview > .address-groups,
+  .address-preview > .summary-strip,
+  .address-preview > fieldset,
+  .address-preview > .preview-actions { grid-column: 1 / -1; }
+  .address-groups .control-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--field-min)), 1fr));
+  }
+  .settings-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--size-1000) * var(--view-unit, 1rem))), 1fr));
+  }
+}
+
+/* Keep the same vertical structure at every tile size. The record region
+   takes the remaining height and scrolls independently of the row count.
+   Its minimum follows text size, reserving room for the header and records.
+   If the controls plus that minimum exceed the tile, the body can scroll
+   to the list without moving the controls beside or below it. */
+.loads-preview {
+  block-size: 100%;
+  min-block-size: 0;
+  grid-template-rows: auto auto minmax(calc(4lh + 2 * var(--content-gap)), 1fr) auto auto;
+}
+.loads-preview > .load-table { min-block-size: 0; }
+.load-table thead th { position: sticky; top: 0; z-index: 1; }
+.loads-preview > .local-message:empty { display: none; }
+
+/* Confirmation cards need their body's intrinsic height. The general tile
+   body size containment would otherwise collapse this auto-height dialog.
+   Scroll the complete card when the tile cannot fit the copy and actions. */
+.tile-dialog-card.confirmation { overflow: auto; }
+.tile-dialog-card.confirmation > .popup-body {
+  container-type: normal;
+  flex: none;
+  overflow: visible;
+}
+
+/* Compact the content, not the tile, when tiles become narrow or short.
+   Keep controls legible and let real excess content scroll in the tile body. */
+@container tile-content (max-width: 38rem) or (max-height: 32rem) {
+  .address-preview, .loads-preview { --content-gap: calc(var(--space-040) * var(--view-unit, 1rem)); --field-min: calc(var(--size-800) * var(--view-unit, 1rem)); }
+  .address-groups { grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--size-1700) * var(--view-unit, 1rem))), 1fr)); }
+  fieldset { padding: calc(var(--space-045) * var(--view-unit, 1rem)); }
+  .control-grid, .settings-grid { gap: calc(var(--space-035) * var(--view-unit, 1rem)); }
+  .settings-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--size-900) * var(--view-unit, 1rem))), 1fr)); }
+  .control-field { gap: calc(var(--space-020) * var(--view-unit, 1rem)); }
+  .section-nav { gap: calc(var(--space-015) * var(--view-unit, 1rem)); padding-bottom: calc(var(--space-030) * var(--view-unit, 1rem)); }
+  .section-nav a { padding: calc(var(--space-035) * var(--view-unit, 1rem)) calc(var(--space-045) * var(--view-unit, 1rem)); }
+  .summary-strip div { padding: calc(var(--space-040) * var(--view-unit, 1rem)); }
+  .choices { min-height: calc(var(--size-215) * var(--view-unit, 1rem)); gap: calc(var(--space-035) * var(--view-unit, 1rem)); }
+  .preview-actions button, .list-toolbar button, .filter-actions button {
+    min-height: calc(var(--size-215) * var(--view-unit, 1rem));
+    padding: calc(var(--space-030) * var(--view-unit, 1rem)) calc(var(--space-055) * var(--view-unit, 1rem));
+    font-size: calc(var(--font-size-085) * var(--view-unit, 1rem));
+  }
+  .reference-table caption { padding: calc(var(--space-040) * var(--view-unit, 1rem)); }
+  .reference-table th, .reference-table td { padding: calc(var(--space-030) * var(--view-unit, 1rem)) calc(var(--space-040) * var(--view-unit, 1rem)); }
+}
+
+
+
+/* 5. DIALOG LAYERS AND RESPONSIVENESS (original order: dialogs.css) */
+/* Layer contract: anchor content = base, form popup = popup,
+   confirmation = confirmation. Keep the same classes in React components. */
+:root {
+  --popup-gutter: calc(var(--space-070) * var(--view-unit, 1rem));
+  --confirmation-max-width: calc(var(--size-3000) * var(--view-unit, 1rem));
+}
+.form-tile { position: relative; isolation: isolate; }
+.form-tile > .tile-header, .form-tile > .tile-body {
+  position: relative;
+  z-index: var(--layer-base);
+}
+.tile-dialog-button { color: var(--color-primary); }
+.popup-header { display: flex; flex-wrap: wrap; align-items: center; gap: calc(var(--space-050) * var(--view-unit, 1rem)); padding: calc(var(--space-075) * var(--view-unit, 1rem)); border-bottom: var(--border-width) solid var(--border-color); background: var(--color-accent-surface); flex: none; }
+.popup-header h2 { margin: 0; flex: 1; font-size: calc(var(--font-size-100) * var(--view-unit, 1rem)); }
+.scope-hint { margin: 0; padding: calc(var(--space-050) * var(--view-unit, 1rem)) calc(var(--space-075) * var(--view-unit, 1rem)); color: var(--color-text-secondary); font-size: calc(var(--font-size-080) * var(--view-unit, 1rem)); border-bottom: var(--border-width) solid var(--border-color); flex: none; }
+.popup-body { flex: 1; min-height: 0; overflow: auto; padding: calc(var(--space-075) * var(--view-unit, 1rem)); }
+.app-dialog { container: screen / inline-size; padding: 0; border: var(--border-width) solid var(--border-color); border-radius: calc(var(--radius-075) * var(--view-unit, 1rem)); inline-size: min(calc(var(--size-9000) * var(--view-unit, 1rem)), calc(100vw - calc(var(--size-200) * var(--view-unit, 1rem)))); max-inline-size: calc(100vw - calc(var(--size-200) * var(--view-unit, 1rem))); block-size: min(calc(var(--size-5800) * var(--view-unit, 1rem)), calc(100dvh - calc(var(--size-200) * var(--view-unit, 1rem)))); max-block-size: calc(100dvh - calc(var(--size-200) * var(--view-unit, 1rem))); color: inherit; background: var(--color-surface); box-shadow: var(--shadow-dialog); }
+.app-dialog[open] { display: flex; flex-direction: column; }
+.app-dialog::backdrop { background: var(--overlay-application); }
+.app-dialog.confirmation { inline-size: min(var(--confirmation-max-width), calc(100vw - calc(var(--size-200) * var(--view-unit, 1rem)))); block-size: min(calc(var(--size-2000) * var(--view-unit, 1rem)), calc(100dvh - calc(var(--size-200) * var(--view-unit, 1rem)))); }
+.app-dialog.confirmation .popup-body { flex: 0 1 auto; }
+/* Let confirmation copy and actions supply the body's natural height.
+   Size containment otherwise collapses this content-sized flex item. */
+.app-dialog.confirmation > .popup-body { container-type: normal; }
+.tile-dialog-layer { position: absolute; inset: 0; padding: var(--popup-gutter); z-index: var(--layer-popup); background: var(--overlay-tile); display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); place-items: center; }
+.tile-dialog-card { container: screen / inline-size; inline-size: 100%; block-size: 100%; min-width: 0; min-height: 0; overflow: hidden; display: flex; flex-direction: column; border: var(--border-width) solid var(--color-field-border); border-radius: calc(var(--radius-065) * var(--view-unit, 1rem)); background: var(--color-surface); box-shadow: 0 6px 20px rgb(15 23 42 / 20%); }
+.tile-dialog-layer.confirmation { z-index: var(--layer-confirmation); }
+.tile-dialog-card.confirmation {
+  inline-size: min(var(--confirmation-max-width), 100%);
+  block-size: auto;
+  max-block-size: 100%;
+}
+.popup-actions { display: flex; flex-wrap: wrap; gap: calc(var(--space-050) * var(--view-unit, 1rem)); padding-top: calc(var(--space-075) * var(--view-unit, 1rem)); }
+.confirmation-copy { margin: calc(var(--space-050) * var(--view-unit, 1rem)) 0; }
+
+/* Title contrast and active state do not change tile dimensions or stacking. */
+.tile-header, .popup-header { background: var(--color-tile-title); }
+.form-tile[data-active-tile] {
+  border-color: var(--color-focus);
+  outline: var(--tile-active-outline-width) solid var(--color-focus);
+  outline-offset: calc(-1 * var(--tile-active-outline-width));
+}
+.form-tile[data-active-tile] > .tile-header {
+  background: var(--color-tile-title-active);
+}
+@media (max-width: 40rem) {
+ .app-dialog { inline-size: calc(100vw - calc(var(--size-100) * var(--view-unit, 1rem))); max-inline-size: calc(100vw - calc(var(--size-100) * var(--view-unit, 1rem))); block-size: calc(100dvh - calc(var(--size-100) * var(--view-unit, 1rem))); max-block-size: calc(100dvh - calc(var(--size-100) * var(--view-unit, 1rem))); }
+}
+
+
+/* 6. GLOBAL AND PER-TILE DISPLAY MODES (original order: displayView.css) */
+/* Normal intentionally has no size override: the original styles remain the baseline.
+   Content uses --view-unit so fonts, spacing and controls can also scale per tile.
+   Percentages also respect the user's default browser font size. */
+:root { --global-view-scale: var(--density-normal); --view-unit: 1rem; }
+:root[data-display-view="compact"] { font-size: calc(100% * var(--density-compact)); --global-view-scale: var(--density-compact); }
+:root[data-display-view="large"] { font-size: calc(100% * var(--density-large)); --global-view-scale: var(--density-large); }
+
+/* Default tiles follow the global scale; explicit choices replace that scale. */
+.form-tile {
+  --tile-view-scale: var(--global-view-scale);
+  --view-unit: calc(1rem / var(--global-view-scale) * var(--tile-view-scale));
+  --popup-gutter: calc(var(--space-070) * var(--view-unit));
+  --confirmation-max-width: calc(var(--size-3000) * var(--view-unit));
+  font-size: var(--view-unit);
+}
+.form-tile[data-display-view="normal"] { --tile-view-scale: var(--density-normal); }
+.form-tile[data-display-view="compact"] { --tile-view-scale: var(--density-compact); }
+.form-tile[data-display-view="large"] { --tile-view-scale: var(--density-large); }
+
+/* CSS resolves global defaults and explicit tile preferences directly.
+   :where() preserves selector specificity without JS-managed styling classes.
+   Compact and Large retain their existing density and layout rules. */
+.form-tile:where([data-display-view="compact"], [data-display-view="large"], :root:is([data-display-view="compact"], [data-display-view="large"]) [data-display-view="default"]) .control-grid,
+.form-tile:where([data-display-view="compact"], [data-display-view="large"], :root:is([data-display-view="compact"], [data-display-view="large"]) [data-display-view="default"]) .settings-grid,
+.form-tile:where([data-display-view="compact"], [data-display-view="large"], :root:is([data-display-view="compact"], [data-display-view="large"]) [data-display-view="default"]) .load-filters {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(12 * var(--view-unit))), 1fr));
+}
+.form-tile:where([data-display-view="compact"], [data-display-view="large"], :root:is([data-display-view="compact"], [data-display-view="large"]) [data-display-view="default"]) .control-field { max-inline-size: 100%; }
+.form-tile:where([data-display-view="compact"], [data-display-view="large"], :root:is([data-display-view="compact"], [data-display-view="large"]) [data-display-view="default"]) :is(.control-field, legend, .summary-strip, .section-nav, .local-message, .scope-hint, .confirmation-copy, .reference-table td, .reference-table th) {
+  overflow-wrap: anywhere;
+}
+.form-tile:where([data-display-view="compact"], [data-display-view="large"], :root:is([data-display-view="compact"], [data-display-view="large"]) [data-display-view="default"]) legend { max-inline-size: 100%; }
+.form-tile:where([data-display-view="compact"], [data-display-view="large"], :root:is([data-display-view="compact"], [data-display-view="large"]) [data-display-view="default"]) .control-field :is(input, select, textarea) {
+  font-size: max(calc(var(--font-size-085) * var(--view-unit)), .875em);
+  line-height: 1.5;
+}
+.form-tile:where([data-display-view="compact"], [data-display-view="large"], :root:is([data-display-view="compact"], [data-display-view="large"]) [data-display-view="default"]) .control-field textarea {
+  field-sizing: content;
+  min-block-size: calc(3lh + var(--view-unit));
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.form-tile:where([data-display-view="compact"], [data-display-view="large"], :root:is([data-display-view="compact"], [data-display-view="large"]) [data-display-view="default"]) .reference-table :is(th, td) { white-space: normal; }
+.form-tile:where([data-display-view="compact"], [data-display-view="large"], :root:is([data-display-view="compact"], [data-display-view="large"]) [data-display-view="default"]) .reference-table .status-badge { white-space: normal; }
+
+/* Compact prioritizes field density with native input controls. */
+.tile-controls-toggle, .tile-delete-icon { display: none; }
+/* Retain the original flex layout; only the collapsed bar uses less padding. */
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) > .tile-header:has(> .tile-controls-toggle[aria-expanded="false"]) {
+  padding: calc(.35 * var(--view-unit));
+}
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) > .tile-header .tile-controls-toggle {
+  display: inline-grid;
+  place-items: center;
+}
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) > .tile-header :is(.tile-controls-toggle, .tile-delete) {
+  flex: none;
+  min-height: calc(2 * var(--view-unit));
+  inline-size: calc(2 * var(--view-unit));
+  padding: 0;
+  line-height: 1;
+}
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .tile-delete-label { display: none; }
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .tile-delete-icon { display: inline; }
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) > .tile-header:has(> .tile-controls-toggle[aria-expanded="false"]) :is(.tile-dialog-button, .tile-display-control, .tile-dimensions) {
+  display: none;
+}
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .tile-controls-toggle[aria-expanded="true"] {
+  background: var(--color-tile-title-active);
+  border-color: var(--color-focus);
+}
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .tile-body { padding: calc(.45 * var(--view-unit)); }
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) :is(.address-preview, .loads-preview) { --content-gap: calc(.35 * var(--view-unit)); }
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .address-groups {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(20 * var(--view-unit))), 1fr));
+}
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) fieldset { padding: calc(.35 * var(--view-unit)); }
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .control-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(16 * var(--view-unit))), 1fr));
+  gap: calc(.25 * var(--view-unit)) calc(.5 * var(--view-unit));
+}
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) :is(.settings-grid, .load-filters) {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(20 * var(--view-unit))), 1fr));
+}
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .control-field {
+  grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
+  align-items: center;
+  gap: calc(.2 * var(--view-unit)) calc(.4 * var(--view-unit));
+}
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .control-field > :is(label, .field-label) { margin: 0; }
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .control-field > small { grid-column: 2; }
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .control-field input:not([type=checkbox]):not([type=radio]),
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .control-field :is(select, textarea) {
+  min-height: calc(1.9 * var(--view-unit));
+  padding: calc(.15 * var(--view-unit)) calc(.35 * var(--view-unit));
+  line-height: 1.35;
+}
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .control-field textarea {
+  field-sizing: fixed;
+  block-size: calc(2lh + .4 * var(--view-unit));
+  min-block-size: calc(2lh + .4 * var(--view-unit));
+  overflow: auto;
+}
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .control-field textarea:focus {
+  field-sizing: content;
+  block-size: auto;
+}
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .choices { min-height: calc(1.9 * var(--view-unit)); gap: calc(.25 * var(--view-unit)); }
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .section-nav { gap: 0; padding-bottom: calc(.2 * var(--view-unit)); }
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .section-nav a { padding: calc(.25 * var(--view-unit)) calc(.4 * var(--view-unit)); }
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .summary-strip div { padding: calc(.3 * var(--view-unit)) calc(.4 * var(--view-unit)); }
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .reference-table caption { padding: calc(.35 * var(--view-unit)); }
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .reference-table :is(th, td) { padding: calc(.2 * var(--view-unit)) calc(.35 * var(--view-unit)); }
+.form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) :is(.preview-actions, .list-toolbar, .filter-actions) button {
+  min-height: calc(1.9 * var(--view-unit));
+  padding: calc(.2 * var(--view-unit)) calc(.5 * var(--view-unit));
+}
+@container tile-content (min-width: 50em) {
+  /* A comfortable reading area on large tiles, independent of screen size.
+     More height favors fewer columns; controls never grow across an ultrawide. */
+  .form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) :is(.address-preview, .loads-preview) {
+    inline-size: 100%;
+    max-inline-size: calc(96 * var(--view-unit));
+    margin-inline: auto;
+  }
+  .form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .address-preview { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .address-preview > :is(.section-nav, .address-groups, .summary-strip, fieldset, .preview-actions) {
+    grid-column: 1 / -1;
+  }
+  .form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .address-preview > section .reference-table table { min-width: 100%; }
+  .form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .address-groups .control-grid { grid-template-columns: minmax(0, 1fr); }
+  .form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) :is(.settings-grid, .load-filters) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .control-field { max-inline-size: calc(32 * var(--view-unit)); }
+  .form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .control-field input:not([type=checkbox]):not([type=radio]),
+  .form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .control-field :is(select, textarea) { max-inline-size: calc(24 * var(--view-unit)); }
+}
+@container tile-content (min-width: 75em) {
+  .form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .address-groups { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) :is(.settings-grid, .load-filters) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .settings-grid > .control-field:has(textarea) {
+    grid-column: span 2;
+    max-inline-size: calc(48 * var(--view-unit));
+  }
+}
+/* Use additional columns only when the tile is both wide enough for them
+   and short enough to benefit. Keep every record and scroll real overflow. */
+@container tile-content (min-width: 90em) and (max-height: 48em) {
+  .form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) :is(.address-preview, .loads-preview) { max-inline-size: calc(112 * var(--view-unit)); }
+  .form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .address-groups .control-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .address-groups .control-field:has(input[id$="-line1"], input[id$="-line2"]) {
+    grid-column: 1 / -1;
+    max-inline-size: 100%;
+  }
+  .form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) :is(.settings-grid, .load-filters) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@container tile-content (max-width: 30em) {
+  .form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .control-field { grid-template-columns: minmax(0, 1fr); }
+  .form-tile:where([data-display-view="compact"], :root[data-display-view="compact"] [data-display-view="default"]) .control-field > small { grid-column: 1; }
+}
+
+.tile-display-control {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(var(--space-035) * var(--view-unit));
+  min-width: 0;
+  max-width: 100%;
+  font-size: calc(var(--font-size-080) * var(--view-unit));
+}
+.tile-display-control select {
+  min-width: 0;
+  max-width: 100%;
+  min-height: calc(var(--size-215) * var(--view-unit));
+  padding: calc(var(--space-030) * var(--view-unit)) calc(var(--space-050) * var(--view-unit));
+  border: var(--border-width) solid var(--border-color);
+  border-radius: calc(var(--radius-035) * var(--view-unit));
+  background: var(--color-surface);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.header { flex-wrap: wrap; }
+.display-view-control {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--fixed-space-050);
+  margin-inline-start: auto;
+  max-inline-size: 100%;
+  font-size: var(--fixed-font-size-0875);
+}
+.display-view-control select {
+  min-height: var(--fixed-size-275);
+  min-width: 0;
+  max-inline-size: 100%;
+  padding: var(--fixed-space-050) var(--fixed-space-085);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--fixed-radius-050);
+  background: var(--color-surface);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
